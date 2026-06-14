@@ -1,11 +1,13 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: persistentVolumeClaim
 metadata:
   name: linkding-data-pvc
 spec:
-  capacity:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
       storage: 1Gi
-  storageClassName: ""
   claimRef:
     name: linkding-data-pvc
     namespace: linkding
