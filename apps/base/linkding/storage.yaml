@@ -8,6 +8,3 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  claimRef:
-    name: linkding-data-pvc
-    namespace: linkding
