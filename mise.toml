@@ -1,5 +1,6 @@
 [tools]
 kubectl = "latest"
 kubens = "latest"
+k9s = "latest"
 direnv = "latest"
 flux2 = "latest"
