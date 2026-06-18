@@ -6,5 +6,5 @@ spec:
   ports:
     - port: 9090
   selector:
-    app: linkding
+    app: linkding # Corresponds with container's label
   type: ClusterIP
