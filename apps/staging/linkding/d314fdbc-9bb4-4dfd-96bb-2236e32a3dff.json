@@ -1,0 +1,18 @@
+{
+	"AccountTag": "23f5d2f721134007e0fabeed28099424",
+	"TunnelSecret": "UaLnTEN+w6ey3KL3S2THVh7w1OZyfk0B+bhuJg9HlFs=",
+	"TunnelID": "d314fdbc-9bb4-4dfd-96bb-2236e32a3dff",
+	"Endpoint": "",
+	"sops": {
+		"age": [
+			{
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB6QlhUWjdpbmJ3T0dwZ1Vs\nZTdpZmkrLzV5bXo2bkZrUW4vYWpOV0MzMlZzCmNHVVhHbStBazJJL0doa0tERUh1\ncmdHUnJmd1l3RnQ5d3dqencwMDBocTAKLS0tIFFpUTNYclR6emxKV0d1bEI3Wldj\nd01lamFWOFF5d0JmdUtmUkpCUkVEQ1EKFeXap/9TRhshc8LtCLJmUNjhHMCmGvZG\nKo/wm03M06ItNbaNDMbudUEBasIol8ZbVfkvwGd06wEMgkSA0rIDcw==\n-----END AGE ENCRYPTED FILE-----\n",
+				"recipient": "age1v042xwen427mha33g7jzwfxnld5yg2ehfk8zjumzttd69494cecq6wa5zx"
+			}
+		],
+		"encrypted_regex": "^(data|stringData)$",
+		"lastmodified": "2026-06-28T16:09:05Z",
+		"mac": "ENC[AES256_GCM,data:PSwYdyHwKm9wrG2eSiXRM0jRm9ThyvQ39g/7iB2ZaRf3ZT3ePuSzh/pF76LjCp4sYEh9hnfdJkxTdY7K6t6QSwNA/xNZzXXQRsec+TtROQX6HgmxC4yHt2DCPd1metoQxbSUSRIE3/IV9aFUsgHEHa4LZ2+fXJCBdYJmJcZQgvY=,iv:+rgo35Uyewn5sVexfihY23vhiUGC2OLor5lQPvlP0z8=,tag:jYk/GvNbYNd138sS/L0gpw==,type:str]",
+		"version": "3.13.1"
+	}
+}

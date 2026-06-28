@@ -5,3 +5,4 @@ resources:
   - ../../base/linkding/
   - cloudflare.yaml
   - test-secret.yaml
+  - d314fdbc-9bb4-4dfd-96bb-2236e32a3dff.json
