@@ -6,3 +6,8 @@ kubectl = "latest"
 kubens = "latest"
 k9s = "latest"
 sops = "latest"
+pre-commit = "latest"
+python = "latest"
+
+[hooks]
+enter = "bash ./scripts/setup_project"
