@@ -57,21 +57,20 @@ Mise shims are on `PATH` for every process in the container — including git ho
 
 ### Stage 2 — Container creation (`scripts/setup`)
 
-After the container is created, the `postCreateCommand` runs once:
+After the container is created, `scripts/setup` runs once via `postCreateCommand`. It:
 
-```bash
-git config --global push.autoSetupRemote true
-git config --global --add safe.directory <workspace>
-scripts/setup
-direnv allow <workspace>
-```
-
-`scripts/setup` runs `mise install` (a fast no-op if the image is current, catches drift otherwise) and installs the pre-commit hooks:
+1. Creates a writable `~/.gitconfig` that includes the host's config (for git identity — see [Git Identity](#git-identity))
+2. Runs `mise install` — a fast no-op if the image is current, catches drift if `mise.toml` changed since the last build
+3. Installs pre-commit hooks:
 
 ```bash
 pre-commit install
 pre-commit install --hook-type commit-msg
 ```
+
+4. Runs `gh auth setup-git` to wire `gh` as the HTTPS credential helper for GitHub
+
+`safe.directory` and `push.autoSetupRemote` are set at the system level in the image so they apply regardless of what's in `~/.gitconfig`.
 
 The commit-msg hook enforces [Conventional Commits](https://www.conventionalcommits.org/) via commitizen.
 
@@ -92,24 +91,15 @@ Install `gh` if not already present:
 
 Other platforms: [cli.github.com](https://cli.github.com)
 
-Then authenticate — a browser window will open on the host:
+Then authenticate — a browser window will open on the host. Use `--insecure-storage` so the token is written to `~/.config/gh` rather than the OS keychain — containers are Linux and cannot reach the macOS Keychain:
 
 ```bash
-gh auth login
+gh auth login --insecure-storage
 ```
 
 Then open (or reopen) the container. `scripts/setup` calls `gh auth setup-git` automatically on each container start, which configures git to use `gh` as the HTTPS credential helper. No further action needed to commit and push.
 
-**Alternative — authenticate from inside the container using a token:**
-
-If you already have a `GITHUB_TOKEN` set in your `.envrc`, you can skip the host browser flow entirely and authenticate `gh` from within the container:
-
-```bash
-echo $GITHUB_TOKEN | gh auth login --with-token
-gh auth setup-git
-```
-
-This writes credentials to `~/.config/gh` (which is bind-mounted back to the host), so every future container starts already authenticated.
+> **Note:** If your `.envrc` sets a `GITHUB_TOKEN` environment variable, `gh` will prefer it over the stored credentials. An invalid or revoked token will silently break pushes. Remove it from `.envrc` if it is no longer needed.
 
 ## Git Identity
 
