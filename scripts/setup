@@ -1,3 +1,18 @@
 #!/bin/bash
 
-/usr/local/bin/mise trust /workspaces/$DEVPOD_WORKSPACE_ID/mise.toml && /usr/local/bin/mise install
+# Create a writable ~/.gitconfig that includes the host's config from the
+# read-only bind mount. safe.directory and push.autoSetupRemote are set at
+# the system level in the image; this only carries over identity and personal
+# settings from the host.
+cat > ~/.gitconfig << 'EOF'
+[include]
+    path = /tmp/.gitconfig-host
+EOF
+
+mise install
+pre-commit install
+pre-commit install --hook-type commit-msg
+
+# Configure git to use gh as the credential helper if already authenticated.
+# No-op if ~/.config/gh is empty (host not yet authenticated).
+gh auth setup-git 2>/dev/null || true

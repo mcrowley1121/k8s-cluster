@@ -1,12 +1,39 @@
 {
-	"build": {
-	"context": "..",
-	"dockerfile": "Dockerfile"
-	},
-	"postCreateCommand": "scripts/setup",
-	"features": {
-	},
+  "name": "k8s-cluster",
+  "build": {
+    "context": "..",
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
 
-	"remoteEnv": {
-	}
+  // Shared baseline only. Personal dotfiles (chezmoi) are per-user and are NOT set here:
+  //   - VS Code:   dotfiles.* in your USER settings
+  //   - core CLI:  devcontainer up --dotfiles-repository <url> --dotfiles-install-command <cmd>
+
+  // Ensure ~/.gitconfig exists on the host before the container starts.
+  // If it doesn't exist Docker would create it as a directory, breaking the mount.
+  "initializeCommand": "touch ~/.gitconfig",
+
+  "mounts": [
+    // gh credentials: authenticate once on the host with `gh auth login`.
+    // Works on macOS, Linux, and Windows with WSL2.
+    // Native Windows: gh stores credentials at %APPDATA%\GitHub CLI — update
+    // the source path to "${localEnv:APPDATA}/GitHub CLI" if not using WSL2.
+    "source=${localEnv:HOME}/.config/gh,target=/home/vscode/.config/gh,type=bind,consistency=cached",
+
+    // Host gitconfig mounted read-only to a staging path. scripts/setup creates
+    // a writable ~/.gitconfig that includes this, so git identity flows in from
+    // the host without Docker's bind-mount blocking atomic config writes.
+    "source=${localEnv:HOME}/.gitconfig,target=/tmp/.gitconfig-host,readonly,type=bind"
+  ],
+
+  "postCreateCommand": "scripts/setup && direnv allow ${containerWorkspaceFolder}",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
 }

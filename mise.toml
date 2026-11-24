@@ -6,8 +6,9 @@ kubectl = "latest"
 kubens = "latest"
 k9s = "latest"
 sops = "latest"
-pre-commit = "latest"
-python = "latest"
-
-[hooks]
-enter = "bash ./scripts/setup_project"
+github-cli = "latest"
+# uv must be present before the pipx: tools below; mise's pipx backend
+# uses uvx to install Python tools from prebuilt wheels when it's available.
+uv = "latest"
+"pipx:pre-commit" = "latest"
+"pipx:commitizen" = "latest"
